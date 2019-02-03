@@ -34,6 +34,7 @@
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expressModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.encodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,12 +50,13 @@
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertInserterTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comingSoonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtEncoded = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.convertInserterTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comingSoonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardMonitor1 = new EsseivaN.Tools.ClipboardMonitor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -91,6 +93,7 @@
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.fastModeToolStripMenuItem,
+            this.expressModeToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
             this.generalToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -100,7 +103,7 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -108,7 +111,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -116,15 +119,25 @@
             // 
             this.fastModeToolStripMenuItem.CheckOnClick = true;
             this.fastModeToolStripMenuItem.Name = "fastModeToolStripMenuItem";
-            this.fastModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fastModeToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.fastModeToolStripMenuItem.Text = "Fast mode";
-            this.fastModeToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fastModeToolStripMenuItem_CheckedChanged);
+            this.fastModeToolStripMenuItem.ToolTipText = "Auto-run converter once app focused";
+            this.fastModeToolStripMenuItem.Click += new System.EventHandler(this.fastModeToolStripMenuItem_Click);
+            // 
+            // expressModeToolStripMenuItem
+            // 
+            this.expressModeToolStripMenuItem.CheckOnClick = true;
+            this.expressModeToolStripMenuItem.Name = "expressModeToolStripMenuItem";
+            this.expressModeToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.expressModeToolStripMenuItem.Text = "Express mode";
+            this.expressModeToolStripMenuItem.ToolTipText = "Auto-run converter once data copied to clipboard";
+            this.expressModeToolStripMenuItem.Click += new System.EventHandler(this.expressModeToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -172,7 +185,7 @@
             this.toolStripMenuItem2.CheckOnClick = true;
             this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(114, 22);
             this.toolStripMenuItem2.Text = "1";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -244,6 +257,20 @@
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
+            // convertInserterTypeToolStripMenuItem
+            // 
+            this.convertInserterTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.comingSoonToolStripMenuItem});
+            this.convertInserterTypeToolStripMenuItem.Name = "convertInserterTypeToolStripMenuItem";
+            this.convertInserterTypeToolStripMenuItem.Size = new System.Drawing.Size(129, 20);
+            this.convertInserterTypeToolStripMenuItem.Text = "Convert inserter type";
+            // 
+            // comingSoonToolStripMenuItem
+            // 
+            this.comingSoonToolStripMenuItem.Name = "comingSoonToolStripMenuItem";
+            this.comingSoonToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.comingSoonToolStripMenuItem.Text = "Coming soon";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -277,30 +304,28 @@
             this.openFileDialog1.Filter = "All files (*.*)|*.*";
             this.openFileDialog1.Title = "Select blueprint to load";
             // 
-            // convertInserterTypeToolStripMenuItem
+            // clipboardMonitor1
             // 
-            this.convertInserterTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.comingSoonToolStripMenuItem});
-            this.convertInserterTypeToolStripMenuItem.Name = "convertInserterTypeToolStripMenuItem";
-            this.convertInserterTypeToolStripMenuItem.Size = new System.Drawing.Size(129, 20);
-            this.convertInserterTypeToolStripMenuItem.Text = "Convert inserter type";
-            // 
-            // comingSoonToolStripMenuItem
-            // 
-            this.comingSoonToolStripMenuItem.Name = "comingSoonToolStripMenuItem";
-            this.comingSoonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.comingSoonToolStripMenuItem.Text = "Coming soon";
+            this.clipboardMonitor1.BackColor = System.Drawing.Color.Red;
+            this.clipboardMonitor1.Location = new System.Drawing.Point(713, 1);
+            this.clipboardMonitor1.Name = "clipboardMonitor1";
+            this.clipboardMonitor1.Size = new System.Drawing.Size(75, 23);
+            this.clipboardMonitor1.TabIndex = 6;
+            this.clipboardMonitor1.Text = "clipboardMonitor1";
+            this.clipboardMonitor1.Visible = false;
+            this.clipboardMonitor1.ClipboardChanged += new System.EventHandler<EsseivaN.Tools.ClipboardChangedEventArgs>(this.clipboardMonitor1_ClipboardChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.clipboardMonitor1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Factrio blueprint tools";
             this.Activated += new System.EventHandler(this.Form1_Enter);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -342,6 +367,8 @@
         private System.Windows.Forms.ToolStripMenuItem fastModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertInserterTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem comingSoonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expressModeToolStripMenuItem;
+        private EsseivaN.Tools.ClipboardMonitor clipboardMonitor1;
     }
 }
 

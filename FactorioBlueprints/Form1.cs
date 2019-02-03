@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using EsseivaN.Tools;
 
 //https://wiki.factorio.com/Blueprint_string_format
 
@@ -14,6 +18,8 @@ namespace FactorioBlueprints
         private char dataVersion = '0';
         private Belts dest = Belts.None;
         private bool fastMode = false;
+        private bool expressMode = false;
+        private bool clipboardSet = false;
 
         private string name_belt = "transport-belt",
             name_undeground = "underground-belt",
@@ -30,18 +36,34 @@ namespace FactorioBlueprints
 
         private string Decode(string encoded)
         {
-            dataVersion = encoded[0];
-            return Ionic.Zlib.ZlibStream.UncompressString(Convert.FromBase64String(encoded.Remove(0, 1)));
+            try
+            {
+                dataVersion = encoded[0];
+                return Ionic.Zlib.ZlibStream.UncompressString(Convert.FromBase64String(encoded.Remove(0, 1)));
+            }
+            catch (Exception ex)
+            {
+                showMessage("Invalid data !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "-1";
+            }
         }
 
         private string Encode(string decoded)
         {
-            if (!(dataVersion >= '0' && dataVersion <= '9'))
+            try
             {
-                dataVersion = '0';
-            }
+                if (!(dataVersion >= '0' && dataVersion <= '9'))
+                {
+                    dataVersion = '0';
+                }
 
-            return dataVersion + Convert.ToBase64String(Ionic.Zlib.ZlibStream.CompressString(decoded));
+                return dataVersion + Convert.ToBase64String(Ionic.Zlib.ZlibStream.CompressString(decoded));
+            }
+            catch (Exception ex)
+            {
+                showMessage("Invalid data !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "-1";
+            }
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -97,7 +119,7 @@ namespace FactorioBlueprints
             toolStripMenuItem7.Checked = true;
             dest = Belts.B3;
         }
-
+        
         private void ConvertBelts(Belts source, Belts dest)
         {
             //if (txtDecoded.Text == string.Empty)
@@ -110,6 +132,10 @@ namespace FactorioBlueprints
             //    else
             //    {
             txtDecoded.Text = Decode(txtEncoded.Text);
+            if (txtDecoded.Text == "-1")
+            {
+                return;
+            }
             //    }
             //}
 
@@ -155,13 +181,18 @@ namespace FactorioBlueprints
 
             txtEncoded.Text = Encode(txtDecoded.Text);
 
+            if (txtEncoded.Text == "-1")
+            {
+                return;
+            }
+
             Clipboard.SetText(txtEncoded.Text);
             showMessage("Complete !\nEncoded data has been copied to clipboard", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void showMessage(string message, string title, MessageBoxButtons button, MessageBoxIcon icon)
         {
-            if(!fastMode)
+            if (!fastMode && !expressMode)
             {
                 MessageBox.Show(message, title, button, icon);
             }
@@ -188,20 +219,37 @@ namespace FactorioBlueprints
                 txtDecoded.Text = string.Empty;
             }
 
-            if(fastMode)
+            if (fastMode)
             {
-                runToolStripMenuItem.PerformClick();
+                RunBeltConverter();
             }
         }
 
-        private void fastModeToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        private void fastModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fastMode = fastModeToolStripMenuItem.Checked;
+            expressMode = expressModeToolStripMenuItem.Checked = false;
+        }
+
+        private void expressModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fastMode = fastModeToolStripMenuItem.Checked = false;
+            expressMode = expressModeToolStripMenuItem.Checked;
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             convertBeltTypeToolStripMenuItem.ShowDropDown();
+        }
+
+        private void clipboardMonitor1_ClipboardChanged(object sender, ClipboardChangedEventArgs e)
+        {
+            if (expressMode)
+            {
+                txtEncoded.Text = Clipboard.GetText();
+                txtDecoded.Text = string.Empty;
+                RunBeltConverter();
+            }
         }
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
@@ -244,6 +292,19 @@ namespace FactorioBlueprints
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            RunBeltConverter();
+        }
+
+        private void RunBeltConverter()
+        {
+
+            if (clipboardSet)
+            {
+                clipboardSet = false;
+                Console.WriteLine("Belt converted aborted");
+                return;
+            }
+
             Belts source = Belts.None;
             if (toolStripMenuItem2.Checked)
             {
@@ -259,6 +320,8 @@ namespace FactorioBlueprints
             {
                 source |= Belts.B3;
             }
+
+            Console.WriteLine("Running belt converter : " + source.ToString() + " " + dest.ToString());
 
             ConvertBelts(source, dest);
         }
