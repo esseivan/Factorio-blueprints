@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 //https://wiki.factorio.com/Blueprint_string_format
 
-namespace FactorioBlueprints
+namespace BlueprintLibrary
 {
     public partial class Form1 : Form
     {
@@ -74,7 +74,7 @@ namespace FactorioBlueprints
             try
             {
                 dataVersion = encoded[0];
-                return Ionic.Zlib.ZlibStream.UncompressString(Convert.FromBase64String(encoded.Remove(0, 1)));
+                return Zlib.ZlibStream.UncompressString(Convert.FromBase64String(encoded.Remove(0, 1)));
             }
             catch (Exception ex)
             {

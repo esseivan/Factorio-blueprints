@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FactorioBlueprints.Properties
+namespace BlueprintLibrary.Properties
 {
 
 

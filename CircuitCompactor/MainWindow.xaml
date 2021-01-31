@@ -1,0 +1,49 @@
+﻿<Window x:Class="CircuitCompactor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CircuitCompactor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+	<Grid>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="&#x003c;= Encode" Click="Encode_Click"/>
+				<MenuItem Header="Decode =>" Click="Decode_Click"/>
+				<MenuItem Header="Compact" Click="Compact_Click"/>
+			</Menu>
+			<Grid Margin="2.5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" MinWidth="80"/>
+					<ColumnDefinition Width="5"/>
+					<ColumnDefinition Width="*" MinWidth="80"/>
+					<ColumnDefinition Width="5"/>
+					<ColumnDefinition Width="*" MinWidth="80"/>
+				</Grid.ColumnDefinitions>
+
+				<!-- Column 1 - Encoded -->
+				<Grid Grid.Column="0" Margin="2.5">
+					<TextBlock Text="Encoded" VerticalAlignment="Top"/>
+					<TextBox Name="txtEncoded" VerticalAlignment="Stretch" Margin="0,21,0,0" />
+				</Grid>
+
+				<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+				<!-- Column 2 - Decoded -->
+				<Grid Grid.Column="2" Margin="2.5">
+					<TextBlock Text="Decoded" VerticalAlignment="Top"/>
+					<TextBox Name="txtDecoded" VerticalAlignment="Stretch" Margin="0,21,0,0" />
+				</Grid>
+
+				<GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+				<!-- Column 3 - Canvas -->
+				<Canvas Grid.Column="4" Background="LightGray" Margin="2.5">
+
+				</Canvas>
+
+			</Grid>
+		</DockPanel>
+	</Grid>
+</Window>

@@ -1,4 +1,4 @@
-﻿namespace FactorioBlueprints
+﻿namespace BlueprintLibrary
 {
     partial class Form1
     {
